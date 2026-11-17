@@ -1,0 +1,25 @@
+import nltk
+from nltk.corpus import wordnet as wn
+nltk.download("wordnet", quiet=True)
+nltk.download("omw-1.4", quiet=True)
+sentence = "The bank approved the loan for the customer."
+target = "bank"
+context = set(sentence.lower().split()) - {target}
+best_synset = None
+best_score = -1
+for synset in wn.synsets(target):
+    signature = set(synset.definition().lower().split())
+    for example in synset.examples():
+        signature.update(example.lower().split())
+    score = len(context & signature)
+    if score > best_score:
+        best_score = score
+        best_synset = synset
+if best_synset:
+    print("Sentence:", sentence)
+    print("Ambiguous Word:", target)
+    print("Selected Meaning:", best_synset.definition())
+    print("Synset:", best_synset.name())
+    print("Context Overlap Score:", best_score)
+else:
+    print("No WordNet meaning found.")
