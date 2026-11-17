@@ -1,0 +1,18 @@
+import re
+
+expression = "Loves(John, Mary)"
+
+pattern = r"^[A-Z][A-Za-z0-9_]*\([A-Za-z][A-Za-z0-9_]*(\s*,\s*[A-Za-z][A-Za-z0-9_]*)*\)$"
+
+if re.fullmatch(pattern, expression):
+    print("Valid basic predicate expression.")
+
+    predicate, arguments = expression[:-1].split("(", 1)
+
+    print("Predicate:", predicate)
+    print("Arguments:", [arg.strip() for arg in arguments.split(",")])
+
+else:
+    print("Invalid logical expression.")
+
+print("FOPC parsing completed.")
