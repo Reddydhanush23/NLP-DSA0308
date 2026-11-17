@@ -1,0 +1,23 @@
+import re
+sentence = "The beautiful girl is walking slowly."
+words = re.findall(r"[A-Za-z]+|[0-9]+|[^\w\s]", sentence)
+def tag_word(word):
+    w = word.lower()
+    if w in {"a", "an", "the"}:
+        return "DT"
+    if w in {"is", "am", "are", "was", "were", "be"}:
+        return "VB"
+    if w.endswith("ly"):
+        return "RB"
+    if w.endswith(("ing", "ed")):
+        return "VB"
+    if w.endswith(("ous", "ful", "able", "ive")):
+        return "JJ"
+    if w.isdigit():
+        return "CD"
+    if re.fullmatch(r"[^A-Za-z0-9]", word):
+        return "PUNCT"
+    return "NN"
+print("\nRule-Based POS Tags:")
+for word in words:
+    print(f"{word:15} {tag_word(word)}")
