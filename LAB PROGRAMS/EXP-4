@@ -1,0 +1,9 @@
+def make_plural(noun):
+    lower = noun.lower()
+    if lower.endswith(("s", "sh", "ch", "x", "z")):
+        return noun + "es"
+    if lower.endswith("y") and len(noun) > 1 and lower[-2] not in "aeiou":
+        return noun[:-1] + "ies"
+    return noun + "s"
+noun = "city"
+print("Plural form:", make_plural(noun))
