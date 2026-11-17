@@ -1,0 +1,39 @@
+def recognize_act(sentence):
+
+    text = sentence.lower().strip()
+
+    if any(text.startswith(word) for word in ("hello", "hi", "hey")):
+        return "Greeting"
+
+    if text.endswith("?") or text.startswith(
+        ("what", "where", "when", "why", "how", "who")
+    ):
+        return "Question"
+
+    if any(word in text for word in ("please", "could you", "can you")):
+        return "Request"
+
+    if any(word in text for word in ("thank", "thanks")):
+        return "Thanking"
+
+    if any(word in text for word in ("bye", "goodbye", "see you")):
+        return "Goodbye"
+
+    return "Statement"
+
+
+dialog = [
+    "Hello, how are you?",
+    "Can you help me?",
+    "Thank you very much.",
+    "Goodbye!"
+]
+
+print("Dialog Act Recognition:\n")
+
+for sentence in dialog:
+    act = recognize_act(sentence)
+
+    print("Sentence:", sentence)
+    print("Dialog Act:", act)
+    print()
