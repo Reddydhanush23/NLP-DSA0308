@@ -1,0 +1,11 @@
+import nltk
+from nltk.stem import PorterStemmer
+for package in ("punkt", "punkt_tab", "averaged_perceptron_tagger_eng"):
+    nltk.download(package, quiet=True)
+sentence = "The children are playing happily."
+words = nltk.word_tokenize(sentence)
+stemmer = PorterStemmer()
+tags = nltk.pos_tag(words)
+print("\nMorphological Analysis:")
+for word, tag in tags:
+    print(f"Word: {word:15} POS: {tag:5} Stem: {stemmer.stem(word)}")
