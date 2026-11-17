@@ -1,0 +1,15 @@
+sentence = "The boy plays quickly".split()
+tagged = [[word, "NN"] for word in sentence]
+for item in tagged:
+    word = item[0].lower()
+    if word in {"is", "am", "are", "was", "were", "play", "plays", "run", "runs"}:
+        item[1] = "VB"
+    elif word in {"a", "an", "the"}:
+        item[1] = "DT"
+    elif word.endswith("ly"):
+        item[1] = "RB"
+    elif word.endswith(("ous", "ful", "ive")):
+        item[1] = "JJ"
+print("\nTransformed POS Tags:")
+for word, tag in tagged:
+    print(f"{word:15} {tag}")
