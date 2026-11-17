@@ -1,0 +1,37 @@
+import re
+
+text = "John went to the market. He bought some fruits. John returned home."
+
+sentences = re.split(r"(?<=[.!?])\s+", text)
+
+last_person = None
+
+print("Original Text:", text)
+
+print("\nReference Resolution:")
+
+for sentence in sentences:
+
+    names = re.findall(r"\b[A-Z][a-z]+\b", sentence)
+
+    names = [
+        name for name in names
+        if name.lower() not in {"he", "she", "the", "then"}
+    ]
+
+    if names:
+        last_person = names[-1]
+
+    resolved = sentence
+
+    if last_person:
+        resolved = re.sub(
+            r"\b(he|him|his)\b",
+            last_person,
+            resolved,
+            flags=re.IGNORECASE
+        )
+
+    print("Original :", sentence)
+    print("Resolved :", resolved)
+    print()
