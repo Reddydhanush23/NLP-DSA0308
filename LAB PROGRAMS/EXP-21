@@ -1,0 +1,29 @@
+import nltk
+
+sentence = "The intelligent student reads a science book."
+
+tokens = nltk.word_tokenize(sentence)
+tagged = nltk.pos_tag(tokens)
+
+grammar = r"NP: {<DT>?<JJ.*>*<NN.*>+}"
+
+chunk_parser = nltk.RegexpParser(grammar)
+
+tree = chunk_parser.parse(tagged)
+
+print("Input Sentence:", sentence)
+
+print("\nPOS Tagged Sentence:")
+print(tagged)
+
+print("\nExtracted Noun Phrases:")
+
+found = False
+
+for subtree in tree.subtrees(filter=lambda t: t.label() == "NP"):
+    found = True
+    phrase = " ".join(word for word, tag in subtree.leaves())
+    print(phrase)
+
+if not found:
+    print("No noun phrases found.")
