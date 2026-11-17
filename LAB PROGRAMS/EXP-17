@@ -1,0 +1,21 @@
+import nltk
+from nltk.corpus import wordnet
+
+nltk.download("wordnet", quiet=True)
+nltk.download("omw-1.4", quiet=True)
+
+word = "computer"
+
+synsets = wordnet.synsets(word)
+
+if not synsets:
+    print("No WordNet entries found.")
+
+else:
+    print("Word:", word)
+    print("\nSynsets and Meanings:")
+
+    for synset in synsets[:10]:
+        print("Synset:", synset.name())
+        print("Meaning:", synset.definition())
+        print()
