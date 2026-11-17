@@ -1,0 +1,47 @@
+grammar = [
+    ("S", ("NP", "VP")),
+    ("NP", ("Det", "N")),
+    ("VP", ("V", "NP")),
+    ("Det", ("the",)),
+    ("N", ("boy",)),
+    ("N", ("ball",)),
+    ("V", ("kicks",))
+]
+nonterminals = {lhs for lhs, rhs in grammar}
+def earley(words):
+    chart = [set() for _ in range(len(words) + 1)]
+    chart[0].add(("ROOT", ("S",), 0, 0))
+    for i in range(len(words) + 1):
+        changed = True
+        while changed:
+            changed = False
+            for state in list(chart[i]):
+                lhs, rhs, dot, origin = state
+                if dot < len(rhs):
+                    next_symbol = rhs[dot]
+                    if next_symbol in nonterminals:
+                        for a, b in grammar:
+                            if a == next_symbol:
+                                item = (a, b, 0, i)
+                                if item not in chart[i]:
+                                    chart[i].add(item)
+                                    changed = True
+                    elif i < len(words) and next_symbol == words[i]:
+                        chart[i + 1].add(
+                            (lhs, rhs, dot + 1, origin)
+                        )
+                else:
+                    for plhs, prhs, pdot, porigin in list(chart[origin]):
+                        if pdot < len(prhs) and prhs[pdot] == lhs:
+                            item = (plhs, prhs, pdot + 1, porigin)
+
+                            if item not in chart[i]:
+                                chart[i].add(item)
+                                changed = True
+    return ("ROOT", ("S",), 1, 0) in chart[len(words)]
+sentence = "the boy kicks the ball".split()
+if earley(sentence):
+    print("Sentence:", " ".join(sentence))
+    print("Accepted by Earley Parser.")
+else:
+    print("Rejected by Earley Parser.")
