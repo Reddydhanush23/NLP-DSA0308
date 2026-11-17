@@ -1,0 +1,17 @@
+import random
+from collections import defaultdict
+corpus = "the cat sat on the mat and the cat slept".lower().split()
+start = "the"
+length = 8
+bigrams = defaultdict(list)
+for first, second in zip(corpus, corpus[1:]):
+    bigrams[first].append(second)
+generated = [start]
+current = start
+for _ in range(max(0, length - 1)):
+    choices = bigrams.get(current)
+    if not choices:
+        break
+    current = random.choice(choices)
+    generated.append(current)
+print("Generated text:", " ".join(generated))
