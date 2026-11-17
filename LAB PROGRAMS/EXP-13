@@ -1,0 +1,20 @@
+import nltk
+grammar_text = """
+S -> NP VP
+NP -> Det N
+VP -> V NP
+Det -> 'the'
+N -> 'boy' | 'ball'
+V -> 'kicks'
+"""
+grammar = nltk.CFG.fromstring(grammar_text)
+parser = nltk.ChartParser(grammar)
+sentence = "the boy kicks the ball".split()
+trees = list(parser.parse(sentence))
+if trees:
+    print("Sentence:", " ".join(sentence))
+    print("Parse Tree:")
+    print(trees[0])
+    trees[0].pretty_print()
+else:
+    print("No parse tree found.")
