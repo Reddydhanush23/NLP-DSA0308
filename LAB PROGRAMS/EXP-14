@@ -1,0 +1,36 @@
+
+grammar = {
+    "singular_subjects": {"he", "she", "it", "the boy"},
+    "plural_subjects": {"they", "we", "the boys"},
+    "singular_verbs": {"runs", "plays", "eats"},
+    "plural_verbs": {"run", "play", "eat"}
+}
+
+sentences = [
+    "he runs",
+    "they play",
+    "the boy eats",
+    "the boys runs"
+]
+
+for sentence in sentences:
+    words = sentence.lower().split()
+
+    subject = None
+    verb = words[-1]
+
+    for i in range(len(words) - 1, 0, -1):
+        possible_subject = " ".join(words[:i])
+
+        if possible_subject in grammar["singular_subjects"] or possible_subject in grammar["plural_subjects"]:
+            subject = possible_subject
+            break
+
+    if subject in grammar["singular_subjects"] and verb in grammar["singular_verbs"]:
+        print(sentence, ":", "Correct subject-verb agreement.")
+
+    elif subject in grammar["plural_subjects"] and verb in grammar["plural_verbs"]:
+        print(sentence, ":", "Correct subject-verb agreement.")
+
+    else:
+        print(sentence, ":", "Subject-verb agreement error.")
