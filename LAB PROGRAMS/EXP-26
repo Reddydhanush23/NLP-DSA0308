@@ -1,0 +1,21 @@
+from transformers import pipeline
+
+print("Loading English-to-French translation model...")
+
+translator = pipeline(
+    "translation",
+    model="Helsinki-NLP/opus-mt-en-fr"
+)
+
+english_text = "Hello, how are you?"
+
+result = translator(
+    english_text,
+    max_length=200
+)
+
+print("\nEnglish Text:")
+print(english_text)
+
+print("\nFrench Translation:")
+print(result[0]["translation_text"])
