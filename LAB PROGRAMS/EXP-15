@@ -1,0 +1,31 @@
+rules = {
+    ("S", ("NP", "VP")): 1.0,
+    ("NP", ("dogs",)): 0.6,
+    ("NP", ("the", "dogs")): 0.4,
+    ("VP", ("bark",)): 0.7,
+    ("VP", ("run",)): 0.3
+}
+
+sentence = "dogs bark".split()
+
+candidates = []
+
+for (lhs1, rhs1), p1 in rules.items():
+    if lhs1 != "NP":
+        continue
+
+    for (lhs2, rhs2), p2 in rules.items():
+        if lhs2 == "VP" and tuple(sentence) == rhs1 + rhs2:
+            candidates.append((p1 * p2, rhs1, rhs2))
+
+if candidates:
+    probability, np_part, vp_part = max(candidates)
+
+    print("Sentence:", " ".join(sentence))
+    print("Most probable parse: S -> NP VP")
+    print("NP:", " ".join(np_part))
+    print("VP:", " ".join(vp_part))
+    print("Parse probability:", round(probability, 3))
+
+else:
+    print("No parse found.")
