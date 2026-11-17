@@ -1,0 +1,7 @@
+from nltk.stem import PorterStemmer
+stemmer = PorterStemmer()
+text = "playing played studies studying"
+words = text.split()
+print("\nStemming Results:")
+for word in words:
+    print(f"{word:15} -> {stemmer.stem(word)}")
