@@ -1,0 +1,30 @@
+grammar = {
+    "S": [["NP", "VP"]],
+    "NP": [["Det", "N"]],
+    "VP": [["V", "NP"]],
+    "Det": [["the"]],
+    "N": [["boy"], ["ball"]],
+    "V": [["kicks"]]
+}
+def parse(symbol, tokens, position):
+    if symbol not in grammar:
+        if position < len(tokens) and tokens[position] == symbol:
+            return position + 1
+        return None
+    for production in grammar[symbol]:
+        current = position
+        for part in production:
+            result = parse(part, tokens, current)
+            if result is None:
+                break
+            current = result
+        else:
+            return current
+    return None
+sentence = "the boy kicks the ball".split()
+result = parse("S", sentence, 0)
+if result == len(sentence):
+    print("Sentence:", " ".join(sentence))
+    print("Accepted by Top-Down Parser.")
+else:
+    print("Rejected by Top-Down Parser.")
